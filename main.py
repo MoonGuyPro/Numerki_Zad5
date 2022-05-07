@@ -1,3 +1,5 @@
+from Chebyshev_polynomials import Chebyshev
+
 def menu(funct):
     print("Podaj przedział aproksymacji, od: ")
     x_0 = input()
@@ -5,8 +7,10 @@ def menu(funct):
     x_n = input()
     print("Podaj stopień wielomianu aproksymującego: ")
     degree = input()
-    print("Podaj ilość węzłów: ")
-    nodes = input()
+    # print("Podaj ilość węzłów: ")
+    # nodes = input()
+    ch = Chebyshev(x_0, x_n, degree,funct)
+    print(ch)
 
 
 def main():
