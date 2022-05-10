@@ -7,10 +7,8 @@ def menu(funct):
     x_n = input()
     print("Podaj stopień wielomianu aproksymującego: ")
     degree = input()
-    # print("Podaj ilość węzłów: ")
-    # nodes = input()
-    ch = Chebyshev(x_0, x_n, degree,funct)
-    print(ch)
+    Appro
+
 
 
 def main():
@@ -28,19 +26,19 @@ def main():
             check = False
         elif choice == "1":
             funct = "(-1/3)*x - 2"
-
+            menu(funct)
         elif choice == "2":
             funct = "abs(x - 1) + 1"
-
+            menu(funct)
         elif choice == "3":
             funct = "3*x**2 + 2*x-2"
-
+            menu(funct)
         elif choice == "4":
             funct = "np.cos(x)+np.sin(x)"
-
+            menu(funct)
         elif choice == "5":
             funct = "np.cos(x)-np.sin(x)+2*x"
-
+            menu(funct)
         else:
             print("Zły numer!")
 

@@ -1,31 +1,45 @@
 import math
+import numpy.polynomial
+import numpy as np
+import matplotlib.pyplot as plt
+from sympy import *
 
-class Chebyshev:
-    """
-    Chebyshev(a, b, n, func)
-    Given a function func, lower and upper limits of the interval [a,b],
-    and maximum degree n, this class computes a Chebyshev approximation
-    of the function.
-    Method eval(x) yields the approximated function value.
-    """
-    def __init__(self, a, b, n, func):
-        self.a = a
-        self.b = b
-        self.func = func
+import Newton_Cotes
+from Newton_Cotes import *
 
-        bma = 0.5 * (b - a)
-        bpa = 0.5 * (b + a)
-        f = [func(math.cos(math.pi * (k + 0.5) / n) * bma + bpa) for k in range(n)]
-        fac = 2.0 / n
-        self.c = [fac * sum([f[k] * math.cos(math.pi * j * (k + 0.5) / n)
-                  for k in range(n)]) for j in range(n)]
 
-    def eval(self, x):
-        a,b = self.a, self.b
-        assert(a <= x <= b)
-        y = (2.0 * x - a - b) * (1.0 / (b - a))
-        y2 = 2.0 * y
-        (d, dd) = (self.c[-1], 0)             # Special case first step for efficiency
-        for cj in self.c[-2:0:-1]:            # Clenshaw's recurrence
-            (d, dd) = (y2 * d - dd + cj, d)
-        return y * d - dd + 0.5 * self.c[0]   # Last step is different
+def Chebyshev_polynominal(n):
+    # p = numpy.polynomial.Chebyshev.basis(n)
+    # poly = p.convert(kind=numpy.polynomial.Polynomial)
+    x = Symbol('x')
+    poly_list = [cos(i * acos(x)) for i in range(2)]
+    for i in range(2, n):
+        poly_list.append(simplify(2 * x * poly_list[i - 1] - poly_list[i - 2]))
+    return poly_list
+
+
+def Approximation(a, b, funct, n):
+    x = Symbol('x')
+    w_x = 1 / sqrt(1 - x**2)
+    T_k = Chebyshev_polynominal(n)
+    result = simplify(x-x)
+    for i in range(n):
+        count = simplify(w_x * funct * T_k[i]) #Ze wzoru wx * fx * Tx
+        integral = Simpson_method(a, b, str(count))     #całkujemy na warunek ortogonalnosci
+        if i == 0:
+            result_integral = integral/pi
+        else:
+            result_integral = integral/(pi/2)
+        result += result_integral * Chebyshev_polynominal(i)  #obliczamy wielomian aproksymacyjny zgodnie ze wzorem yx = c0g0(x) + ... + cmgm(x)
+    return result
+
+
+def printing(a, b, funct, n):
+    poly = Chebyshev_polynominal(n)
+    x_real = np.arange(a, b, 0.01)
+    y_real = [poly(i) for i in x_real]
+    plt.figure(figsize=(10, 7))
+    plt.plot(x_real, y_real)
+    plt.xlabel("Oś OX")
+    plt.ylabel("Oś OY")
+    plt.show()
