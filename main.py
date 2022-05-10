@@ -2,6 +2,7 @@ import Chebyshev_polynomials
 from Chebyshev_polynomials import *
 from sympy import *
 
+
 def menu(funct):
     print("Podaj przedział aproksymacji, od: ")
     x_0 = input()
@@ -11,9 +12,12 @@ def menu(funct):
     degree = input()
     print("Podaj liczbę węzłów: ")
     nodes = input()
-    result = Chebyshev_polynomials.Approximation(funct, int(degree)+1, int(nodes))
+    result = Chebyshev_polynomials.Approximation(funct, int(degree) + 1, int(nodes))
     print("Wielomian aproksymujący: ")
     print(result)
+    error = Chebyshev_polynomials.approximation_error(float(x_0), float(x_n), funct, int(degree), int(nodes))
+    print("Błąd wynosi: ")
+    print(error)
     Chebyshev_polynomials.printing(float(x_0), float(x_n), funct, int(degree), int(nodes))
 
 
@@ -24,8 +28,8 @@ def main():
         print("Wybierz funkcje: ")
         print("0. Wyjście")
         print("1. Wykładowy: pi * (x + 1) * sqrt(1 - x ** 2)")
-        print("2. |x|:  |x - 1| * sqrt(1 - x ** 2)")
-        print("3. Wielomian: 3*x^(2)+2*x-2 * sqrt(1 - x ** 2)")
+        print("2. |x|:  |x - 1| + 1")
+        print("3. Wielomian: 3*x^(2)+2*x-2")
         print("4. Trygonometryczna: cos(x)+sin(x)")
         print("5. Złożenie: cos(x)-sin(x)+2*x")
         print("6. Liniowa: x + 2")
@@ -36,16 +40,16 @@ def main():
             funct = pi * (x + 1) * sqrt(1 - x ** 2)
             menu(funct)
         elif choice == "2":
-            funct = abs(x - 1) * sqrt(1 - x ** 2)
+            funct = abs(x - 1) + 1
             menu(funct)
         elif choice == "3":
-            funct = 3*x**2 + (2*x-2) * sqrt(1 - x ** 2)
+            funct = 3 * x ** 2 + (2 * x - 2)
             menu(funct)
         elif choice == "4":
-            funct = sin(x)
+            funct = cos(x) + sin(x)
             menu(funct)
         elif choice == "5":
-            funct = cos(x)-sin(x)+2*x
+            funct = cos(x) - sin(x) + 2 * x
             menu(funct)
         elif choice == "6":
             funct = x + 2
