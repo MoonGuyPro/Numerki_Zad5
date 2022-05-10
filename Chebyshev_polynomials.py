@@ -4,8 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from sympy import *
 
-import Newton_Cotes
-from Newton_Cotes import *
+import Gauss_Chebyshev
 
 
 def Chebyshev_polynominal(n):
@@ -18,14 +17,14 @@ def Chebyshev_polynominal(n):
     return poly_list
 
 
-def Approximation(a, b, funct, n):
+def Approximation(funct, n, nodes):
     x = Symbol('x')
-    w_x = 1 / sqrt(1 - x**2)
+    # w_x = 1 / sqrt(1 - x**2)
     T_k = Chebyshev_polynominal(n)
     result = simplify(x-x)
     for i in range(n):
-        count = simplify(w_x * funct * T_k[i]) #Ze wzoru wx * fx * Tx
-        integral = Simpson_method(a, b, str(count))     #całkujemy na warunek ortogonalnosci
+        count = simplify(funct * T_k[i]) #Ze wzoru wx * fx * Tx
+        integral = Gauss_Chebyshev.Gauss_Chebyshev(count, nodes)     #całkujemy na warunek ortogonalnosci
         if i == 0:
             result_integral = integral/pi
         else:
@@ -34,15 +33,17 @@ def Approximation(a, b, funct, n):
     return result
 
 
-def printing(a, b, funct, n):
+def printing(a, b, funct, n, nodes):
     x = Symbol('x')
-    aprox = Approximation(a, b, funct, n)
-    x_aprox = np.arange(a, b, 0.01)
+    aprox = Approximation(funct, n, nodes)
+    x_aprox = np.linspace(a, b, 100)
     y_aprox = [aprox.subs(x, i) for i in x_aprox]
     y_real = [funct.subs(x, i) for i in x_aprox]
     plt.figure(figsize=(10, 7))
     plt.plot(x_aprox, y_aprox)
-    plt.plot(x_aprox, y_real, "b")
+    plt.plot(x_aprox, y_real, "r")
     plt.xlabel("Oś OX")
     plt.ylabel("Oś OY")
+    plt.axhline(y=0, color='black', linestyle='-')
+    plt.axvline(x=0, color='black', linestyle='-')
     plt.show()
