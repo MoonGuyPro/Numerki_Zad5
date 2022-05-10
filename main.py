@@ -1,4 +1,6 @@
-from Chebyshev_polynomials import Chebyshev
+import Chebyshev_polynomials
+from Chebyshev_polynomials import *
+from sympy import *
 
 def menu(funct):
     print("Podaj przedział aproksymacji, od: ")
@@ -7,12 +9,13 @@ def menu(funct):
     x_n = input()
     print("Podaj stopień wielomianu aproksymującego: ")
     degree = input()
-    Appro
-
+    result = Chebyshev_polynomials.Approximation(float(x_0), float(x_n), funct, int(degree))
+    print(result)
 
 
 def main():
     check = True
+    x = Symbol('x')
     while (check):
         print("Wybierz funkcje: ")
         print("0. Wyjście")
@@ -25,7 +28,7 @@ def main():
         if choice == "0":
             check = False
         elif choice == "1":
-            funct = "(-1/3)*x - 2"
+            funct = pi*(x + 1)*sqrt(1-x**2)
             menu(funct)
         elif choice == "2":
             funct = "abs(x - 1) + 1"

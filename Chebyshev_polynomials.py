@@ -30,7 +30,7 @@ def Approximation(a, b, funct, n):
             result_integral = integral/pi
         else:
             result_integral = integral/(pi/2)
-        result += result_integral * Chebyshev_polynominal(i)  #obliczamy wielomian aproksymacyjny zgodnie ze wzorem yx = c0g0(x) + ... + cmgm(x)
+        result += simplify(result_integral * T_k[i])  #obliczamy wielomian aproksymacyjny zgodnie ze wzorem yx = c0g0(x) + ... + cmgm(x)
     return result
 
 
