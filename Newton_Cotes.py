@@ -23,5 +23,4 @@ def Simpson_method(a, b, funct):
         n += 1
         iteration += 1
         diff = abs(result - old_result)
-    # print("Liczba iteracji: " + str(iteration))
     return result

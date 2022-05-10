@@ -35,11 +35,14 @@ def Approximation(a, b, funct, n):
 
 
 def printing(a, b, funct, n):
-    poly = Chebyshev_polynominal(n)
-    x_real = np.arange(a, b, 0.01)
-    y_real = [poly(i) for i in x_real]
+    x = Symbol('x')
+    aprox = Approximation(a, b, funct, n)
+    x_aprox = np.arange(a, b, 0.01)
+    y_aprox = [aprox.subs(x, i) for i in x_aprox]
+    y_real = [funct.subs(x, i) for i in x_aprox]
     plt.figure(figsize=(10, 7))
-    plt.plot(x_real, y_real)
+    plt.plot(x_aprox, y_aprox)
+    plt.plot(x_aprox, y_real, "b")
     plt.xlabel("Oś OX")
     plt.ylabel("Oś OY")
     plt.show()
